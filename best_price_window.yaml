@@ -1,5 +1,5 @@
 blueprint:
-  name: Best power price
+  name: Best power price window
   description: Returns the best average block of power. The block size is variable. You can ask for the minimum or maximum.
   domain: script
 
