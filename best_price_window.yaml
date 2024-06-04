@@ -62,6 +62,7 @@ sequence:
       price: "{{(averages[interval_index] * 100) | round | int}}"
       response:
         block_size: "{{ block_size }}"
+        window_size: "{{ window_size }}"
         starts_in_hours: "{{ interval_index / 2 }}"
         cents_per_kwh: "{{ price }}"
         min_max: >
