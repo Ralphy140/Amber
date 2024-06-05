@@ -44,13 +44,14 @@ fields:
 
 sequence:
   - variables:
-      intervals: "{{ window_size // block_size }}"
+      window: "{{ window_size * 2 }}" #this will set the window to the number of segments to search total in the future from now
+      intervals: "{{ block_size * 2 }}" # defines how many 30 min segments are in a block
       prices: >-
         {{ state_attr(entity_id, 'forecasts') |
         map(attribute='per_kwh') | list }}
       averages: >
         {% set data = namespace(averages=[]) %}  
-        {% for index in range(prices|count - intervals) %}
+        {% for index in range(window|count - intervals) %}
           {% set data.averages = data.averages + [(prices[index:index+intervals] | average)] %}
         {% endfor %} {{data.averages}}
       interval_index: >
@@ -63,7 +64,7 @@ sequence:
       response:
         block_size: "{{ block_size }}"
         window_size: "{{ window_size }}"
-        starts_in_hours: "{{ interval_index / 2 }}"
+        starts_in_hours: "{{ interval_index * block_size }}"
         cents_per_kwh: "{{ price }}"
         min_max: >
           {% if min_max == "max" %}
