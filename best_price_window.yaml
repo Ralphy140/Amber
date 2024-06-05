@@ -51,7 +51,7 @@ sequence:
         map(attribute='per_kwh') | list }}
       averages: >
         {% set data = namespace(averages=[]) %}  
-        {% for index in range(window|count - intervals) %}
+        {% for index in range(prices|window - intervals) %}
           {% set data.averages = data.averages + [(prices[index:index+intervals] | average)] %}
         {% endfor %} {{data.averages}}
       interval_index: >
